@@ -1,8 +1,9 @@
 package test
 
+import Event
+import findConflicts
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -14,23 +15,10 @@ class TestSolve {
     @Test
     @Order(1)
     fun `First test`() {
-        printAssert(18, 18)
-        assertThat(18).isEqualTo(18)
-    }
-
-    @Nested
-    inner class `First nested test` {
-        @Test
-        @Order(2)
-        fun `First inner test`() {
-            printAssert(18, 18)
-            assertThat(18).isEqualTo(18)
-        }
-        @Test
-        @Order(3)
-        fun `Second inner test`() {
-            printAssert(18, 18)
-            assertThat(18).isEqualTo(18)
-        }
+        val events = listOf(Event(1, 2, "a"), Event(3, 9, "b"), Event(5, 6, "c"), Event(7, 8, "d"), Event(9, 10, "e"))
+        val conflicts = listOf(listOf(Event(5, 6, "c"), Event(7, 8, "d")))
+        val actual = findConflicts(events)
+        printAssert(actual, conflicts)
+        assertThat(actual).isEqualTo(conflicts)
     }
 }
